@@ -1,6 +1,17 @@
+import "./pages/index.css";
+import { initialCards } from "./cards";
+
+const logoImage = new URL("./images/logo.svg", import.meta.url);
+const profileImage = new URL("./images/avatar.jpg", import.meta.url);
+
+const headerLogo = document.querySelector(".header__logo");
+const profileAvatar = document.querySelector(".profile__image");
 const placesList = document.querySelector(".places__list");
 const cardTemplate = document.querySelector("#card-template").content;
 const cardElement = cardTemplate.querySelector(".places__item.card");
+
+headerLogo.src = logoImage;
+profileAvatar.style.backgroundImage = `url(${profileImage})`;
 
 function createCard(title, imagelink, cardDeleteFunction) {
   const cardInstance = cardElement.cloneNode(true);
