@@ -1,6 +1,6 @@
 import "./pages/index.css";
 import { initialCards } from "./cards";
-import { addCard, handleCardLikeButton } from "./card";
+import { createCard, handleCardLikeButton } from "./card";
 import { openPopup, closePopup } from "./modal";
 
 const headerLogo = document.querySelector(".header__logo");
@@ -30,6 +30,19 @@ const placesList = document.querySelector(".places__list");
 const cardTemplate = document.querySelector("#card-template").content;
 const cardElement = cardTemplate.querySelector(".places__item.card");
 
+function addCard(
+  cardsList,
+  template,
+  title,
+  imagelink,
+  imageClickFunction,
+  likeButtonFunction,
+  putBefore = false
+) {
+  const filledCard = createCard(template, title, imagelink, imageClickFunction, likeButtonFunction);
+  putBefore ? cardsList.prepend(filledCard) : cardsList.append(filledCard);
+}
+
 function openImagePopup(evt) {
   const sourceImage = evt.target;
   imagePopupPicture.src = sourceImage.src;
@@ -48,7 +61,7 @@ function submitEditProfileForm(evt) {
   evt.preventDefault();
   profileTitle.textContent = editProfileNameField.value;
   profileDescription.textContent = editProfileDescriptionField.value;
-  closePopup(editPopup);
+  closePopup();
 }
 
 function submitnewPlaceForm(evt) {
@@ -62,7 +75,7 @@ function submitnewPlaceForm(evt) {
     handleCardLikeButton,
     true
   );
-  closePopup(newCardPopup);
+  closePopup();
   newPlaceForm.reset();
 }
 
