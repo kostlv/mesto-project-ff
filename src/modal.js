@@ -3,25 +3,9 @@ export function openPopup(popup) {
   addListenersToPopup(popup);
 }
 
-export function openImagePopup(popup, imageElement, sourceElement) {
-  imageElement.src = sourceElement.src;
-  imageElement.alt = sourceElement.alt;
-  openPopup(popup);
-}
-
-function closePopup(popup) {
+export function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
   removeListenersFromPopup(popup);
-}
-
-function addListenersToPopup(popup) {
-  popup.addEventListener("click", (evt) => handlePopupClose(evt, popup));
-  document.addEventListener("keydown", (evt) => handlePopupClose(evt, popup));
-}
-
-function removeListenersFromPopup(popup) {
-  popup.removeEventListener("click", (evt) => handlePopupClose(evt, popup));
-  document.removeEventListener("keydown", (evt) => handlePopupClose(evt, popup));
 }
 
 function handlePopupClose(evt, popup) {
@@ -33,4 +17,16 @@ function handlePopupClose(evt, popup) {
   } else if (evt.key === "Escape") {
     closePopup(popup);
   }
+}
+
+function addListenersToPopup(popup) {
+  popup.addEventListener("click", (evt) => handlePopupClose(evt, popup));
+  document.addEventListener("keydown", (evt) => handlePopupClose(evt, popup));
+}
+
+function removeListenersFromPopup(popup) {
+  popup.removeEventListener("click", (evt) => handlePopupClose(evt, popup));
+  document.removeEventListener("keydown", (evt) =>
+    handlePopupClose(evt, popup)
+  );
 }
