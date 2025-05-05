@@ -2,6 +2,7 @@ import "./pages/index.css";
 import { initialCards } from "./cards";
 import { createCard, handleCardLikeButton } from "./card";
 import { openPopup, closePopup } from "./modal";
+import { enableValidation, clearValidation } from "./validation";
 
 const headerLogo = document.querySelector(".header__logo");
 const logoImage = new URL("./images/logo.svg", import.meta.url);
@@ -30,6 +31,15 @@ const placesList = document.querySelector(".places__list");
 const cardTemplate = document.querySelector("#card-template").content;
 const cardElement = cardTemplate.querySelector(".places__item.card");
 
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_is-disabled",
+  inputErrorClass: "popup__input_is-invalid",
+  errorClass: "popup__input-error_is-active",
+};
+
 function addCard(
   cardsList,
   template,
@@ -39,7 +49,13 @@ function addCard(
   likeButtonFunction,
   putBefore = false
 ) {
-  const filledCard = createCard(template, title, imagelink, imageClickFunction, likeButtonFunction);
+  const filledCard = createCard(
+    template,
+    title,
+    imagelink,
+    imageClickFunction,
+    likeButtonFunction
+  );
   putBefore ? cardsList.prepend(filledCard) : cardsList.append(filledCard);
 }
 
@@ -55,6 +71,7 @@ function openEditProfilePopup() {
   editProfileNameField.value = profileTitle.textContent;
   editProfileDescriptionField.value = profileDescription.textContent;
   openPopup(editPopup);
+  clearValidation(editProfileForm, validationConfig);
 }
 
 function submitEditProfileForm(evt) {
@@ -77,6 +94,7 @@ function submitnewPlaceForm(evt) {
   );
   closePopup();
   newPlaceForm.reset();
+  clearValidation(newPlaceForm, validationConfig);
 }
 
 editProfileForm.addEventListener("submit", submitEditProfileForm);
@@ -95,5 +113,14 @@ headerLogo.src = logoImage;
 profileAvatar.style.backgroundImage = `url(${profileImage})`;
 
 initialCards.forEach((card) => {
-  addCard(placesList, cardElement, card.name, card.link, openImagePopup, handleCardLikeButton);
+  addCard(
+    placesList,
+    cardElement,
+    card.name,
+    card.link,
+    openImagePopup,
+    handleCardLikeButton
+  );
 });
+
+enableValidation(validationConfig);
