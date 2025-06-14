@@ -617,6 +617,24 @@ template {
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  cursor: pointer;
+  position: relative;
+  border: none;
+}
+
+.profile__image::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: #000000CC url(8667ac4a523e8fc42e59.svg) center no-repeat;
+  background-size: 26px 26px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.profile__image:hover::after {
+  opacity: 1;
 }
 
 @media screen and (max-width: 740px) {
@@ -743,6 +761,16 @@ template {
   margin: 0;
 }
 
+.card__like-button-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.card__likes-count {
+  font-size: 13px;
+  line-height: 1.23;
+}
 .card {
   font-family: 'Inter', Arial, sans-serif;
   border-radius: 10px;
@@ -782,6 +810,9 @@ template {
   padding: 0;
 }
 
+.popup__content_content-edit-avatar {
+  min-height: 272px;
+}
 .popup__close {
   width: 35px;
   height: 35px;
@@ -819,27 +850,28 @@ template {
   margin-top: 27px;
 }
 
+.popup__input_is-invalid {
+  border-bottom: 1px solid #FF0000;
+}
 .popup__input {
+  box-sizing: border-box;
   width: 100%;
   height: 47px;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
+  padding: 10px 0 0;
   font-size: 14px;
   line-height: 18px;
-  box-sizing: border-box;
-  padding: 10px 0 0;
-  margin-bottom: 10px;
 }
-
-.popup__input:last-of-type {
-  margin-bottom: 0;
-}
-
-@media screen and (max-width: 568px) {
-  .popup__title {
-    font-size: 12px;
-    line-height: 15px;
-  }
+.popup__input-error {
+  display: none;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  color: #FF0000;
+  font-size: 12px;
+  line-height: 1;
+  z-index: 1;
 }
 
 .popup__button {
@@ -888,6 +920,27 @@ template {
   display: block;
 }
 
+.popup__field {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.popup__field:last-of-type {
+  margin-bottom: 0;
+}
+.popup__input_is-invalid {
+  border-bottom: 1px solid #FF0000;
+}
+.popup__input-error_is-active {
+  display: block;
+}
+.popup__button_is-disabled {
+  background: rgba(0, 0, 0, 0);
+  color: black;
+  outline: 1px solid currentColor;
+  pointer-events: none;
+  opacity: 0.2;
+}
 .popup {
   font-family: 'Inter', Arial, sans-serif;
   display: none;
@@ -919,6 +972,7 @@ template {
   pointer-events: all;
   transition: visibility 0s, opacity 0.6s;
 }
+
 
 
 
