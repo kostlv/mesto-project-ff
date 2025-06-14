@@ -9,7 +9,6 @@ export function clearValidation(formItem, validationConfig) {
   const fieldsList = Array.from(formItem.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formItem.querySelector(validationConfig.submitButtonSelector);
   fieldsList.forEach((field) => {
-    checkInputValidity(formItem, field, validationConfig);
     hideInputError(formItem, field, validationConfig);
   });
   toggleButtonState(fieldsList, buttonElement, validationConfig);

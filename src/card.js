@@ -1,7 +1,11 @@
 import { deleteCardRequest, addLikeToCard, removeLikeFromCard } from "./api";
 
 export function deleteCard(card, cardId) {
-  deleteCardRequest(cardId).then(() => card.remove());
+  deleteCardRequest(cardId)
+    .then(() => card.remove())
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 export function createCard(

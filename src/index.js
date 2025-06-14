@@ -1,5 +1,4 @@
 import "./pages/index.css";
-import { initialCards } from "./cards";
 import { createCard, handleCardLikeButton } from "./card";
 import { openPopup, closePopup } from "./modal";
 import { enableValidation, clearValidation } from "./validation";
@@ -14,18 +13,19 @@ import {
 const headerLogo = document.querySelector(".header__logo");
 const logoImage = new URL("./images/logo.svg", import.meta.url);
 
-const profileSection = document.querySelector(".profile");
 const profileAvatar = document.querySelector(".profile__image");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+const editProfileButton = document.querySelector(".profile__edit-button");
 const editPopup = document.querySelector(".popup_type_edit");
 const editProfileForm = document.forms["edit-profile"];
 const editProfileNameField = editProfileForm.elements.name;
 const editProfileDescriptionField = editProfileForm.elements.description;
 const editProfileSubmitButton = editProfileForm.querySelector(".popup__button");
 
-const newCardPopup = document.querySelector(".popup_type_new-card");
+const newPlaceAddButton = document.querySelector(".profile__add-button");
+const newPlacePopup = document.querySelector(".popup_type_new-card");
 const newPlaceForm = document.forms["new-place"];
 const newPlaceNameField = newPlaceForm.elements["place-name"];
 const newPlaceLinkField = newPlaceForm.elements.link;
@@ -35,6 +35,7 @@ const imagePopup = document.querySelector(".popup_type_image");
 const imagePopupPicture = imagePopup.querySelector(".popup__image");
 const imagePopupCaption = imagePopup.querySelector(".popup__caption");
 
+const avatarEditButton = document.querySelector(".profile__image");
 const avatarPopup = document.querySelector(".popup_type_avatar");
 const avatarForm = document.forms["edit-avatar"];
 const avatarLinkField = avatarForm.elements.link;
@@ -116,10 +117,12 @@ function submitEditProfileForm(evt) {
       profileTitle.textContent = res.name;
       profileDescription.textContent = res.about;
       closePopup();
-      resetButtonState(editProfileSubmitButton);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      resetButtonState(editProfileSubmitButton);
     });
 }
 
@@ -143,12 +146,14 @@ function submitnewPlaceForm(evt) {
         true
       );
       closePopup();
-      resetButtonState(newPlaceSubmitButton);
       newPlaceForm.reset();
       clearValidation(newPlaceForm, validationConfig);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      resetButtonState(newPlaceSubmitButton);
     });
 }
 
@@ -159,12 +164,14 @@ function submitEditAvatarForm(evt) {
     .then((res) => {
       profileAvatar.style.backgroundImage = `url(${res.avatar})`;
       closePopup();
-      resetButtonState(avatarSubmitButton);
       avatarForm.reset();
       clearValidation(avatarForm, validationConfig);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      resetButtonState(avatarSubmitButton);
     });
 }
 
@@ -172,15 +179,12 @@ editProfileForm.addEventListener("submit", submitEditProfileForm);
 newPlaceForm.addEventListener("submit", submitnewPlaceForm);
 avatarForm.addEventListener("submit", submitEditAvatarForm);
 
-profileSection.addEventListener("click", (evt) => {
-  const target = evt.target;
-  if (target.classList.contains("profile__add-button")) {
-    openPopup(newCardPopup);
-  } else if (target.classList.contains("profile__edit-button")) {
-    openEditProfilePopup();
-  } else if (target.classList.contains("profile__image")) {
-    openPopup(avatarPopup);
-  }
+editProfileButton.addEventListener("click", openEditProfilePopup);
+newPlaceAddButton.addEventListener("click", () => {
+  openPopup(newPlacePopup);
+});
+avatarEditButton.addEventListener("click", () => {
+  openPopup(avatarPopup);
 });
 
 headerLogo.src = logoImage;

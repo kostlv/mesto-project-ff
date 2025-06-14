@@ -6,25 +6,22 @@ const config = {
   },
 };
 
+function getResponseData(res) {
+  if (!res.ok) {
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  return res.json();
+}
+
 export function getUserInfo() {
   return fetch(`${config.baseUrl}/users/me`, { headers: config.headers }).then(
-    (res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
+    getResponseData
   );
 }
 
 export function getInitialCards() {
   return fetch(`${config.baseUrl}/cards`, { headers: config.headers }).then(
-    (res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
+    getResponseData
   );
 }
 
@@ -36,12 +33,7 @@ export function editProfileRequest(profileName, profileDescription) {
       name: profileName,
       about: profileDescription,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  }).then(getResponseData);
 }
 
 export function addCardRequest(placeName, placeLink) {
@@ -52,57 +44,36 @@ export function addCardRequest(placeName, placeLink) {
       name: placeName,
       link: placeLink,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  }).then(getResponseData);
 }
 
 export function deleteCardRequest(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: config.headers,
-  });
+  }).then(getResponseData);
 }
 
 export function addLikeToCard(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "PUT",
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  }).then(getResponseData);
 }
 
 export function removeLikeFromCard(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "DELETE",
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  }).then(getResponseData);
 }
 
 export function editAvatar(avatarLink) {
-  console.log(avatarLink);
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
       avatar: avatarLink,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  }).then(getResponseData);
 }
