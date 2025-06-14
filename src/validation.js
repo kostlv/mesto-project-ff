@@ -8,7 +8,6 @@ export function enableValidation(validationConfig) {
 export function clearValidation(formItem, validationConfig) {
   const fieldsList = Array.from(formItem.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formItem.querySelector(validationConfig.submitButtonSelector);
-  console.log(formItem);
   fieldsList.forEach((field) => {
     checkInputValidity(formItem, field, validationConfig);
     hideInputError(formItem, field, validationConfig);
